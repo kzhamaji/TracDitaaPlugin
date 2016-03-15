@@ -52,7 +52,7 @@ synopsis)
         content, _args = self._parse_content_compat(content)
         args.update(_args)
 
-        content = content.strip()
+        content = content.rstrip()
         if not content:
             return ''
 
