@@ -106,9 +106,9 @@ synopsis)
                 if k == 'scale':
                     args['scale'] = float(v)
                 elif k == 'no-separation':
-                    args['separation'] = not bool(v)
+                    args['separation'] = not (v.lower() != 'false')
                 elif k == 'no-shadow':
-                    args['shadows'] = not bool(v)
+                    args['shadows'] = not (v.lower() != 'false')
                 else:
                     raise TracError('invalid option(%s)' % k)
             else:
