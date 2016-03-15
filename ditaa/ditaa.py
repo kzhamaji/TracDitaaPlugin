@@ -83,7 +83,6 @@ synopsis)
                 if args.get('shadows') is False:
                     cmd += ["--no-shadows"]
 
-                self.log.error(fo.name)
                 cmd += [fo.name, png_path]
                 p = subprocess.Popen(cmd,
                         stdout=subprocess.PIPE, stderr=subprocess.PIPE,
