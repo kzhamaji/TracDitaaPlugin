@@ -24,9 +24,10 @@ synopsis)
 | AAA |
 +-----+
 }}}
- * scale=float
+ * width=(CSS spec: 50%, 800px, etc)
  * separation=True|False
  * shadow=True|False
+ * (scale=float)
 }}}
 {{{
 #!ditaa
@@ -55,6 +56,8 @@ synopsis)
         content = content.rstrip()
         if not content:
             return ''
+
+        width = args.pop('width', '')
 
         option_str = '&'.join(["%s=%s" % (k,args[k]) for k in sorted(args.keys())])
         sha_key   = sha.new(content+option_str).hexdigest()
@@ -94,7 +97,12 @@ synopsis)
                 fo.close()
 
         png_url = formatter.href.chrome('site', 'ditaa', rsrc.realm, rsrc.id, png_name)
-        return tag.img(src=png_url, class_="ditaa", alt=sha_key)
+        img = tag.img(src=png_url, class_="ditaa", alt=sha_key)
+
+        if width:
+            img(width=width)
+
+        return img
 
     def _parse_content_compat (self, content):
         args = {}
@@ -108,6 +116,8 @@ synopsis)
                     args['separation'] = not (v.lower() != 'false')
                 elif k == 'no-shadow':
                     args['shadows'] = not (v.lower() != 'false')
+                elif k == 'width':
+                    args['width'] = v
                 else:
                     raise TracError('invalid option(%s)' % k)
             else:
