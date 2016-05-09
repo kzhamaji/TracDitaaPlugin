@@ -64,7 +64,7 @@ synopsis)
         png_name = sha_key + '.png'
 
         rsrc = formatter.resource
-        cache_dir = os.path.join(self.env.path, self.cache_dir, rsrc.realm, rsrc.id)
+        cache_dir = os.path.join(self.env.path, self.cache_dir, rsrc.realm, str(rsrc.id))
         png_path  = os.path.join(cache_dir, png_name)
 
         if not os.path.exists(png_path):
