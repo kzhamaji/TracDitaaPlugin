@@ -60,7 +60,7 @@ synopsis)
         width = args.pop('width', '')
 
         option_str = '&'.join(["%s=%s" % (k,args[k]) for k in sorted(args.keys())])
-        sha_key   = sha.new(content+option_str).hexdigest()
+        sha_key   = sha.new((content+option_str).encode('utf-8')).hexdigest()
         png_name = sha_key + '.png'
 
         rsrc = formatter.resource
@@ -73,7 +73,7 @@ synopsis)
 
             fo = tempfile.NamedTemporaryFile(bufsize=0)
             try:
-                fo.write(content)
+                fo.write(content.encode('utf-8'))
 
                 # txt -> png
                 cmd = ["java", "-jar", self.ditaa_jar, "-o", "--encoding", "utf-8"]
