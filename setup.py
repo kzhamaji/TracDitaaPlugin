@@ -7,7 +7,7 @@ setup(
     #description='',
     #keywords='',
     #url='',
-    version='0.1',
+    version='0.2',
     #license='',
     #author='',
     #author_email='',

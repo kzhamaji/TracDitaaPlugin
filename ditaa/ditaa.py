@@ -4,6 +4,7 @@ import os
 import subprocess
 import sha
 import tempfile
+import threading
 
 from trac.core import *
 from trac.config import Option, IntOption
@@ -38,6 +39,8 @@ synopsis)
     '''
     ditaa_jar = Option("ditaa", "ditaa_jar", "")
     cache_dir = Option("ditaa", "cache_dir", "htdocs/ditaa")
+    timeout = IntOption("ditaa", "timeout", 30, "timeout for rendering")
+    lang = Option("ditaa", "lang", "ja_JP.eucJP")
 
     def get_macros (self):
         yield 'ditaa'
@@ -89,8 +92,12 @@ synopsis)
                 cmd += [fo.name, png_path]
                 p = subprocess.Popen(cmd,
                         stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                        env={"LANG":"ja_JP.UTF-8"})
+			env={"LANG":self.lang})
+		timer = threading.Timer(self.timeout, p.kill)
+		timer.start()
                 (stdout, stderr) = p.communicate(input=None)
+		if timer.is_alive():
+		    timer.cancel()
                 if p.returncode != 0:
                     return system_message("Fail to execute ditaa: %s" % stderr)
             finally:
