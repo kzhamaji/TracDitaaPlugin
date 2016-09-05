@@ -84,9 +84,11 @@ synopsis)
                 scale = float(args.get('scale', 1.0))
                 if scale != 1.0:
                     cmd += ["-s", str(scale)]
-                if args.get('separation') is False:
+                separation = args.get('separation', True)
+                if separation or separation != 'False':
                     cmd += ["--no-separation"]
-                if args.get('shadows') is False:
+                shadows = args.get('shadows', True)
+                if shadows or shadows != 'False':
                     cmd += ["--no-shadows"]
 
                 cmd += [fo.name, png_path]
